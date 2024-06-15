@@ -1,0 +1,41 @@
+Foods (food_id INT PRIMARY KEY AUTO INCREMENT,
+	food_name VARCHAR(255),
+	diet ENUM,
+	foodgroup INT,
+	nutrition_id INT FOREIGN KEY REFERENCES nutrition.nutrition_id)
+
+FoodGroups (groupID INT PRIMARY KEY,
+		groupName VARCHAR(255))
+	
+Nutrition (nutrition_id INT PRIMARY KEY AUTO INCREMENT,
+		parent_id INT, 
+		parent_type ENUM, 
+		calorie DOUBLE, 
+		protein DOUBLE, 
+		carb DOUBLE, 
+		sugar DOUBLE,
+		fat DOUBLE);
+
+Recipes (recipe_id INT PRIMARY KEY AUTO INCREMENT,
+		recipe_name VARCHAR(255),
+		prep_time TIME,
+		cook_time TIME,
+		diet ENUM,
+		nutrition_id INT FOREIGN KEY REFERENCES nutrition.nutrition_id,
+		instruction TEXT)
+
+Ingredients (ing_id INT PRIMARY KEY AUTO INCREMENT,
+		recipe_id INT FOREIGN KEY,
+		food_id INT FOREIGN KEY REFERENCES Foods.food_id,
+		amount_num INT,
+		unit VARCHAR(64),
+		food_name VARCHAR(100))
+
+Inventory (inv_id INT PRIMARY KEY AUTO INCREMENT,
+		food_id INT FOREIGN KEY,
+		amount INT,
+		unit VARCHAR (100),
+		food_name VARCHAR(100))
+
+
+

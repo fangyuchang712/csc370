@@ -1,0 +1,17 @@
+
+SELECT 
+    r.recipe_id,
+    r.recipe_name
+FROM 
+    Recipes r
+JOIN 
+    Ingredients i ON r.recipe_id = i.recipe_id
+LEFT JOIN 
+    (SELECT food_name, SUM(amount) AS total_amount
+     FROM Inventory
+     GROUP BY food_name) inv ON i.food_name = inv.food_name
+GROUP BY 
+    r.recipe_id, r.recipe_name
+HAVING 
+    COUNT(i.ing_id) = SUM(CASE WHEN inv.total_amount >= i.amount_num THEN 1 ELSE 0 END);
+
