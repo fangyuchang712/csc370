@@ -22,7 +22,8 @@ Recipes (recipe_id INT PRIMARY KEY AUTO INCREMENT,
 		cook_time TIME,
 		diet ENUM,
 		nutrition_id INT FOREIGN KEY REFERENCES nutrition.nutrition_id,
-		instruction TEXT)
+		instruction TEXT,
+		creator VARCHAR(100))
 
 Ingredients (ing_id INT PRIMARY KEY AUTO INCREMENT,
 		recipe_id INT FOREIGN KEY,
@@ -35,7 +36,14 @@ Inventory (inv_id INT PRIMARY KEY AUTO INCREMENT,
 		food_id INT FOREIGN KEY,
 		amount INT,
 		unit VARCHAR (100),
-		food_name VARCHAR(100))
+		food_name VARCHAR(100)
+		user_id VARCHAR(100))
+
+likedRecipes (liked_id INT PRIMARY KEY AUTO INCREMENT,
+		recipe_id INT FOREIGN KEY REFERENCES Recipes.recipe_id,
+		user_id VARCHAR(100))
+
+
 
 
 
