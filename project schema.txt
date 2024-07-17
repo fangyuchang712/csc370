@@ -1,7 +1,7 @@
 Foods (food_id INT PRIMARY KEY AUTO INCREMENT,
 	food_name VARCHAR(255),
 	diet ENUM,
-	foodgroup INT,
+	foodgroup INT FOREIGN KEY REFERENCES FoodGroups.groupID,
 	nutrition_id INT FOREIGN KEY REFERENCES nutrition.nutrition_id)
 
 FoodGroups (groupID INT PRIMARY KEY,
@@ -25,24 +25,33 @@ Recipes (recipe_id INT PRIMARY KEY AUTO INCREMENT,
 		instruction TEXT,
 		creator VARCHAR(100))
 
-Ingredients (ing_id INT PRIMARY KEY AUTO INCREMENT,
-		recipe_id INT FOREIGN KEY,
+Ingredients (ing_id INT,
+		recipe_id INT FOREIGN KEY REFERENCES Recipes.recipe_id,
 		food_id INT FOREIGN KEY REFERENCES Foods.food_id,
 		amount_num INT,
 		unit VARCHAR(64),
-		food_name VARCHAR(100))
+		food_name VARCHAR(100)
+		UNIQUE CONSTRAINT rec_ing(ing_id,recipe_id) PRIMARY KEY)
 
-Inventory (inv_id INT PRIMARY KEY AUTO INCREMENT,
-		food_id INT FOREIGN KEY,
+Inventory (	food_id INT FOREIGN KEY,
 		amount INT,
 		unit VARCHAR (100),
 		food_name VARCHAR(100)
-		user_id VARCHAR(100))
+		user_id VARCHAR(100)
+		UNIQUE CONSTRAINT user_food(user_id,food_name) PRIMARY KEY)
 
-likedRecipes (liked_id INT PRIMARY KEY AUTO INCREMENT,
-		recipe_id INT FOREIGN KEY REFERENCES Recipes.recipe_id,
-		user_id VARCHAR(100))
+likedRecipes (recipe_id INT FOREIGN KEY REFERENCES Recipes.recipe_id,
+		user_id VARCHAR(100),
+		UNIQUE CONSTRAINT user_rec(user_id, recipe_id) PRIMARY KEY)
 
+FD's:
+food_id -> food_name, diet, food_group, nutrition_id;
+nutrition_id -> parent_id, parent_type, calorie, protein, sugar, fat, carb;
+recipe_id -> recipe_name, prep_time, cook_time, nutrition_id, instruction, creator;
+nutrition_id -> recipe_id, recipe_name, prep_time, cook_time, instruction, creator;
+ing_id, recipe_id -> food_id, amount, unit, food_name;
+food_name, user_id -> food_id, amount, unit;
+user_id, recipe_id -> user_id, recipe_id;
 
 
 
